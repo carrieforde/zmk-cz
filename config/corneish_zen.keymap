@@ -18,6 +18,22 @@
 // Autoshift macro
 #define AS(keycode) &as LS(keycode) keycode
 
+// Space cadet
+#define L_SHFT_PAR &mt LSHFT LPAR
+#define R_SHFT_PAR &mt RSHFT RPAR
+
+// Tap for Esc, hold for Ctrl
+#define CTR_ESC &mt LCTRL ESC
+
+// Tap for backspace, hold for Option
+#define BSPC_OPT &mt RALT BSPC
+
+// Screenshot
+#define SCRN_SHOT &kp LG(LS(N4))
+
+// Screen recording
+#define SCRN_REC &kp LG(LS(N5))
+
 / {
     chosen {
         zmk,physical-layout = &foostan_corne_6col_layout;
@@ -48,40 +64,56 @@
 // | SHFT |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  |  /  | ESC  |
 //                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
             bindings = <
-&kp TAB   AS(Q) AS(W) AS(E) AS(R) AS(T)   AS(Y) AS(U)  AS(I)     AS(O)   AS(P)    &kp BSPC
-&kp LCTRL AS(A) AS(S) AS(D) AS(F) AS(G)   AS(H) AS(J)  AS(K)     AS(L)   &kp SEMI &kp SQT
-&kp LSHFT AS(Z) AS(X) AS(C) AS(V) AS(B)   AS(N) AS(M)  &kp COMMA &kp DOT &kp FSLH &kp ESC
-               &kp LCMD LOWER &kp SPACE   &kp RET RAISE &kp RALT
+&kp TAB    AS(Q) AS(W) AS(E) AS(R) AS(T)   AS(Y) AS(U)  AS(I)     AS(O)   AS(P)    AS(MINUS)
+CTR_ESC    AS(A) AS(S) AS(D) AS(F) AS(G)   AS(H) AS(J)  AS(K)     AS(L)   AS(SEMI) AS(SQT)
+L_SHFT_PAR AS(Z) AS(X) AS(C) AS(V) AS(B)   AS(N) AS(M)  &kp COMMA AS(DOT) AS(FSLH) R_SHFT_PAR
+               &kp LCMD LOWER &kp SPACE   &kp RET RAISE BSPC_OPT
             >;
         };
 
         lower_layer {
-            display-name = "SYMBOL";
-// -----------------------------------------------------------------------------------------
-// |  TAB |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  | BSPC |
-// | CTRL |     |     |     |     |     |   |  -  |  =  |  [  |  ]  |  \  |  `   |
-// | SHFT |     |     |     |     |     |   |  _  |  +  |  {  |  }  | "|" |  ~   |
-//                    | GUI |     | SPC |   | ENT |     | ALT |
+            display-name = "LOWER";
+// ----------------------------------------------------------------------------
+// |    |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  | DEL |
+// |    |  _  |  +  |  {  |  }  | "|" |   | LFT | DWN |  UP | RGT |  `  |  ~  |
+// |    | ESC | REC | SHT | CAPS|  "  |   | HOME| END | PGUP| PGDN| PRSC|     |
+//                        |     |     |   | RET | ADJ |     |
             bindings = <
-&kp  TAB  &kp EXCL &kp AT &kp HASH &kp DLLR &kp PRCNT   &kp CARET &kp AMPS  &kp ASTRK &kp LPAR &kp RPAR &kp BSPC
-&kp LCTRL &trans   &trans &trans   &trans   &trans      &kp MINUS &kp EQUAL &kp LBKT  &kp RBKT &kp BSLH &kp GRAVE
-&kp LSHFT &trans   &trans &trans   &trans   &trans      &kp UNDER &kp PLUS  &kp LBRC  &kp RBRC &kp PIPE &kp TILDE
-                          &kp LCMD &trans   &kp SPACE   &kp RET   &trans    &kp RALT
+&trans &kp EXCL  &kp AT   &kp HASH  &kp DLLR &kp PRCNT   &kp CARET &kp AMPS  &kp ASTRK &kp LPAR  &kp RPAR  &kp DEL
+&trans &kp UNDER &kp PLUS &kp LBRC  &kp RBRC &kp PIPE    &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &kp GRAVE &kp TILDE
+&trans &kp ESC   SCRN_REC SCRN_SHOT &kp CLCK &kp SQT     &kp HOME  &kp END   &kp PG_UP &kp PG_DN &kp PSCRN &trans
+                          &trans    &trans   &trans      &trans    ADJUST    &kp BSPC
             >;
         };
 
         raise_layer {
-            display-name = "NUMBER";
-// -----------------------------------------------------------------------------------------
-// |  TAB |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  | BSPC |
-// | BTCLR| BT1 | BT2 | BT3 | BT4 | BT5 |   | LFT | DWN |  UP | RGT |     |      |
-// | SHFT |     |     |     |     |     |   |     |     |     |     |     |      |
-//                    | GUI |     | SPC |   | ENT |     | ALT |
+            display-name = "RAISE";
+// ----------------------------------------------------------------------------
+// |    |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  | DEL |
+// |    |  -  |  =  |  [  |  ]  |  \  |   |  .  |  4  |  5  |  6  |  -  |  /  |
+// |    | ESC | GUI | ALT | CAPS|  "  |   |  0  |  1  |  2  |  3  | F11 |  *  |
+//                        |     | ADJ |   |    |     |
+                        
             bindings = <
-&kp TAB    &kp N1       &kp N2       &kp N3       &kp N4       &kp N5         &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp BSPC
-&bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4   &kp LEFT &kp DOWN &kp UP &kp RIGHT &trans &trans
-&kp LSHFT  &trans       &trans       &trans       &trans       &trans         &trans   &trans   &trans &trans    &trans &trans
-                                     &kp LCMD     &trans       &kp SPACE      &kp RET  ADJUST   &kp RALT
+&trans &kp N1    &kp N2    &kp N3    &kp N4    &kp N5        &kp N6     &kp N7    &kp N8    &kp N9    &kp N0     &kp DEL
+&trans &kp MINUS &kp EQUAL &kp LBKT  &kp RBKT  &kp BSLH      &kp DOT    &kp N4    &kp N5    &kp N6    &kp MINUS  &kp SLASH
+&trans &kp ESC   &kp LGUI  &kp RALT  &kp CLCK  &kp DQT       &kp N0     &kp N1    &kp N2    &kp N3    &kp PLUS   &kp ASTRK
+                           &trans    ADJUST    &trans        &trans     &trans    &trans
+            >;
+        };
+
+        adjust_layer {
+            display-name = "ADJUST";
+// -----------------------------------------------------------------------
+// |       |     |     |     |     |     |  |   |       |   |   |   |   |
+// | BTCLR | BT1 | BT2 | BT3 | BT4 | BT5 |  |   | RESET |   |   |   |   |
+// |       |     |     |     |     |     |  |   |       |   |   |   |   |
+//                           |     |     |  |   |       |   |   |
+            bindings = <
+&none      &none        &none        &none         &none         &none             &none        &none  &none  &none  &none  &none
+&bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4      &kp C_RESET  &none  &none  &none  &none  &none
+&none      &none        &none        &none         &none         &none             &none        &none  &none  &none  &none  &none
+                                        &trans        &trans        &none             &trans       &trans &trans
             >;
         };
     };
